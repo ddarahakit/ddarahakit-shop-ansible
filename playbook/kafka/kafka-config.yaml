@@ -1,0 +1,18 @@
+- hosts: ["kafka"]
+  pre_tasks:
+    - name: check kafka installed
+      stat:
+        path: /opt/kafka
+      register: kafka_installed
+
+  tasks:
+  - name: Set common fact amongst all distros
+    set_fact:
+      kafka_brokerid: '{{ inventory_hostname.split("kafka").1  }}'
+      zookeeper_server_list: '{{ groups["zookeeper"] | join(",") }}'
+
+  - name: "copy kafka server.properties file"
+    template:
+      src: 'server.properties'
+      dest: '/opt/kafka/config/server.properties'
+    when: kafka_installed.stat.exists

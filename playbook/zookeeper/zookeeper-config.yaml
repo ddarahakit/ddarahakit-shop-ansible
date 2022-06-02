@@ -1,4 +1,4 @@
-- hosts: ["zookeeper1"]
+- hosts: ["zookeeper"]
   pre_tasks:
     - name: check zookeeper installed
       stat:
@@ -6,13 +6,17 @@
       register: zookeeper_installed
 
   tasks:
+  - name: Set common fact amongst all distros
+    set_fact:
+      zookeeper_myid: '{{ inventory_hostname.split("zookeeper").1  }}'
+
   - name: "copy zoo.cfg"
     copy:
       src: "/root/ansible/conf/zookeeper/zoo.cfg"
       dest: "/opt/zookeeper/conf/zoo.cfg"
 
   - name: "config zookeeper myid"
-    shell: |
-      echo 1 > /opt/zookeeper/myid
-    become: yes
+    template:
+      src: 'myid'
+      dest: '/data/zookeeper/myid'
     when: zookeeper_installed.stat.exists

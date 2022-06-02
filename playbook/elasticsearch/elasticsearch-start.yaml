@@ -1,0 +1,15 @@
+- hosts: ["elasticsearch"]
+  pre_tasks:
+    - name: check elasticsearch installed
+      stat:
+        path: /etc/elasticsearch
+      register: elasticsearch_installed
+
+  tasks:
+  - name: "elasticsearch start"
+    systemd:
+      name: elasticsearch
+      state: restarted
+    become: true
+    when: elasticsearch_installed.stat.exists
+

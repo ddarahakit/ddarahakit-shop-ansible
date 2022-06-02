@@ -1,0 +1,21 @@
+- hosts: ["elasticsearch"]
+  tasks:
+  - name: "install jdk"
+    apt:
+      name: openjdk-11-jdk
+    become: yes
+
+  - name: Add elasticsearch repository GPG key
+    apt_key:
+      url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    become: true
+
+
+  - name: Add elasticsearch repository
+    apt_repository:
+      repo: 'deb https://artifacts.elastic.co/packages/7.x/apt stable main'
+
+  - name: Install elasticsearch 
+    apt:
+      update_cache: yes
+      name: elasticsearch

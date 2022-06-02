@@ -2,12 +2,16 @@ all:
   children:
     namenode:
       hosts:
-        namenode-active:
-        namenode-standby:
+        namenode[1:2]:
     datanode:
       hosts:
-        datanode1:
-        datanode2:
+        datanode[1:2]:
+    kafka:
+      hosts:
+        kafka[1:3]:
     zookeeper:
       hosts:
-        zookeeper1:
+        zookeeper[1:3]:
+    elasticsearch:
+      hosts:
+        elasticsearch[1:3]:

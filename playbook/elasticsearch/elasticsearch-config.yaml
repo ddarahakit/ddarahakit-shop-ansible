@@ -1,0 +1,21 @@
+- hosts: ["elasticsearch"]
+  pre_tasks:
+    - name: check elasticsearch installed
+      stat:
+        path: /etc/elasticsearch
+      register: elasticsearch_installed
+
+  tasks:
+  - name: Set common fact amongst all distros
+    set_fact:
+      es_nodename: '{{ inventory_hostname }}'
+      node_ip_addr: '{{ hostvars[inventory_hostname]["ansible_default_ipv4"]["address"] }}'
+      seed_hosts: '{{ groups["elasticsearch"] | join(",") }}'
+      master_nodes: '{{ groups["elasticsearch"] | join(",") }}' 
+
+
+  - name: "copy elasticsearch elasticsearch.yml file"
+    template:
+      src: 'elasticsearch.yml'
+      dest: '/etc/elasticsearch/elasticsearch.yml'
+    when: elasticsearch_installed.stat.exists

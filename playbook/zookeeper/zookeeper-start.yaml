@@ -1,4 +1,4 @@
-- hosts: ["zookeeper1"]
+- hosts: ["zookeeper"]
   pre_tasks:
     - name: check zookeeper installed
       stat:

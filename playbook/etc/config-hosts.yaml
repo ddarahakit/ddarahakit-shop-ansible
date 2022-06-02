@@ -1,7 +1,7 @@
-- hosts: ["namenode-active", "namenode-standby", "datanode1", "datanode2", "zookeeper"]
+- hosts: ["all"]
   tasks:
   - name: "config /etc/hosts file"
     shell: |
       if [ "127" -eq `head -2 /etc/hosts | tail -1 | cut -d'.' -f1` ]; then sed -i '2d' /etc/hosts; fi
-      echo "172.30.1.101 namenode-active\n172.30.1.102 namenode-standby\n172.30.1.103 datanode1\n172.30.1.104 datanode2\n172.30.1.201 zookeeper1" >> /etc/hosts
+      echo "127.0.0.1       localhost\n::1     ip6-localhost ip6-loopback\nfe00::0 ip6-localnet\nff00::0 ip6-mcastprefix\nff02::1 ip6-allnodes\nff02::2 ip6-allrouters\n172.30.1.10 ansible\n172.30.1.101 namenode-active\n172.30.1.102 namenode-standby\n172.30.1.103 datanode1\n172.30.1.104 datanode2\n172.30.1.21 kafka1\n172.30.1.22 kafka2\n172.30.1.23 kafka3\n172.30.1.201 zookeeper1\n172.30.1.202 zookeeper2\n172.30.1.203 zookeeper3\n172.30.1.31 elasticsearch1\n172.30.1.32 elasticsearch2\n172.30.1.33 elasticsearch3" > /etc/hosts
     become: yes

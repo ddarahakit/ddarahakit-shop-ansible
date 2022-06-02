@@ -1,0 +1,12 @@
+- hosts: ["kafka"]
+  pre_tasks:
+    - name: check kafka installed
+      stat:
+        path: /opt/kafka
+      register: kafka_installed
+
+  tasks:
+  - name: "kafka start"
+    shell: "nohup /opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/server.properties &"
+    when: kafka_installed.stat.exists
+

@@ -1,4 +1,4 @@
-- hosts: ["zookeeper1"]
+- hosts: ["zookeeper"]
   tasks:
   - name: "install jdk"
     apt:
@@ -17,7 +17,7 @@
       remote_src: True
       owner: "root"
       group: "root"
-    become: True
+    become: yes
 
   - name: "create symlink /opt/zookeeper"
     file:

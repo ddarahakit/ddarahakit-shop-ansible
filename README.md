@@ -35,6 +35,9 @@
 > 172.30.1.102 namenode-standby  
 > 172.30.1.103 datanode1  
 > 172.30.1.104 datanode2  
+> 172.30.1.21 kafka1
+> 172.30.1.22 kafka2
+> 172.30.1.23 kafka3
 > 172.30.1.201 zookeeper1
 
 ### 03. ssh 설정

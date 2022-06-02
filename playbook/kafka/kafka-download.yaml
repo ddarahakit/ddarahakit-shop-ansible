@@ -1,0 +1,29 @@
+- hosts: ["kafka"]
+  tasks:
+  - name: "install jdk"
+    apt:
+      name: openjdk-11-jdk
+    become: yes
+  - name: "download kafka-3.2.0"
+    get_url:
+      url: https://dlcdn.apache.org/kafka/3.2.0/kafka_2.12-3.2.0.tgz
+      dest: /tmp
+      mode: "0660"
+
+  - name: "unarchive"
+    unarchive:
+      src: "/tmp/kafka_2.12-3.2.0.tgz"
+      dest: "/opt"
+      remote_src: True
+      owner: "root"
+      group: "root"
+    become: yes
+
+  - name: "create symlink /opt/kafka"
+    file:
+      src: "/opt/kafka_2.12-3.2.0"
+      dest: /opt/kafka
+      state: link
+      owner: "root"
+      group: "root"
+    become: yes
