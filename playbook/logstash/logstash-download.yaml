@@ -1,0 +1,6 @@
+- hosts: ["elasticsearch"]
+  tasks:
+  - name: Install logstash
+    apt:
+      update_cache: yes
+      name: logstash

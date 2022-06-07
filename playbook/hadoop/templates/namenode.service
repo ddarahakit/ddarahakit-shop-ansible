@@ -1,0 +1,17 @@
+[Unit]
+Description=Hadoop HDFS namenode service
+After=network-online.target
+Requires=network-online.target
+
+[Service]
+Type=forking
+
+ExecStart=/opt/hadoop/bin/hdfs --daemon start namenode
+ExecStop=/opt/hadoop/bin/hdfs --daemon stop namenode
+
+WorkingDirectory=/opt/hadoop
+Environment=HADOOP_HOME=/opt/hadoop
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

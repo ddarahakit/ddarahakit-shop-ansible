@@ -9,6 +9,6 @@
   - name: "kafka start"
     systemd:
       name: kafka
-      state: restarted
-      daemon_reload: yes
+      state: stopped
     become: true
+    when: kafka_installed.stat.exists

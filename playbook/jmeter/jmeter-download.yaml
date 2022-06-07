@@ -1,0 +1,7 @@
+- hosts: ["namenode","kafka","zookeeper"]
+  tasks:
+  - name: "install jmeter"
+    apt:
+      name: jmeter
+    become: yes
+

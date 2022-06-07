@@ -9,10 +9,38 @@
   - name: Set common fact amongst all distros
     set_fact:
       kafka_brokerid: '{{ inventory_hostname.split("kafka").1  }}'
+      kafka_agentid: '{{ inventory_hostname }}'
+      node_ip_addr: '{{ hostvars[inventory_hostname]["ansible_default_ipv4"]["address"] }}'
       zookeeper_server_list: '{{ groups["zookeeper"] | join(",") }}'
 
   - name: "copy kafka server.properties file"
     template:
       src: 'server.properties'
       dest: '/opt/kafka/config/server.properties'
+    when: kafka_installed.stat.exists
+
+  - name: "create kafka service"
+    template:
+      src: 'kafka.service'
+      dest: '/etc/systemd/system/kafka.service'
+
+  - name: "download pinpoint agent" 
+    get_url:
+      url: https://github.com/pinpoint-apm/pinpoint/releases/download/v2.2.0/pinpoint-agent-2.2.0.tar.gz
+      dest: /tmp
+    when: kafka_installed.stat.exists
+
+  - name: "unarchive"
+    unarchive:
+      src: "/tmp/24dc2480-358d-11eb-9696-2d939fe4c1b7"
+      dest: "/opt/kafka"
+      remote_src: True
+      owner: "root"
+      group: "root"
+    become: yes
+
+  - name: "copy kafka pinpoint config file"
+    template:
+      src: 'pinpoint.config'
+      dest: '/opt/kafka/pinpoint-agent-2.2.0/profiles/release/pinpoint.config'
     when: kafka_installed.stat.exists

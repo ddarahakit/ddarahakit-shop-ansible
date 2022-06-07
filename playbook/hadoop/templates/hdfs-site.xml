@@ -21,23 +21,23 @@
   </property>
   <property>
     <name>dfs.namenode.rpc-address.hadoop-cluster.nn1</name>
-    <value>namenode-active:8020</value>
+    <value>namenode1:8020</value>
   </property>
   <property>
     <name>dfs.namenode.rpc-address.hadoop-cluster.nn2</name>
-    <value>namenode-standby:8020</value>
+    <value>namenode2:8020</value>
   </property>
   <property>
     <name>dfs.namenode.http-address.hadoop-cluster.nn1</name>
-    <value>namenode-active:50070</value>
+    <value>namenode1:50070</value>
   </property>
   <property>
     <name>dfs.namenode.http-address.hadoop-cluster.nn2</name>
-    <value>namenode-standby:50070</value>
+    <value>namenode2:50070</value>
   </property>
   <property>
     <name>dfs.namenode.shared.edits.dir</name>
-    <value>qjournal://namenode-active:8485;namenode-standby:8485;datanode1:8485/hadoop-cluster</value>
+    <value>qjournal://namenode1:8485;namenode2:8485;datanode1:8485/hadoop-cluster</value>
   </property>
   <property>
     <name>dfs.client.failover.proxy.provider.hadoop-cluster</name>
@@ -51,5 +51,9 @@
   <property>
     <name>dfs.ha.automatic-failover.enabled</name>
     <value>true</value>
+  </property>
+  <property>
+    <name>dfs.permissions.enabled</name>
+    <value>false</value>
   </property>
 </configuration>

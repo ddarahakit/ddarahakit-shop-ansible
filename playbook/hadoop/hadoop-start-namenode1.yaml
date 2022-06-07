@@ -1,0 +1,12 @@
+---
+- hosts: ["namenode1"]
+  pre_tasks:
+    - name: check hadoop installed
+      stat:
+        path: /opt/hadoop
+      register: hadoop_installed
+
+  tasks:
+  - name: "namenode1 start"
+    shell: "/opt/hadoop/bin/hdfs --daemon start namenode"
+    when: hadoop_installed.stat.exists

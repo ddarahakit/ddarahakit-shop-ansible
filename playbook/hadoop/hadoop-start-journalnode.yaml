@@ -1,0 +1,12 @@
+- hosts: ["namenode1","namenode2","datanode1"]
+  pre_tasks:
+    - name: check hadoop installed
+      stat:
+        path: /opt/hadoop
+      register: hadoop_installed
+
+  tasks:
+  - name: "journalnode start"
+    shell: "nohup /opt/hadoop/bin/hdfs --daemon start journalnode"
+    when: hadoop_installed.stat.exists
+

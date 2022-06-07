@@ -1,0 +1,7 @@
+- hosts: ["datanode1","datanode2"]
+  tasks:
+  - name: "datanode start"
+    shell: "/opt/hadoop/bin/hdfs --daemon start datanode"
+      
+      
+

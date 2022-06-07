@@ -1,0 +1,6 @@
+- hosts: ["elasticsearch"]
+  tasks:
+  - name: Install kibana 
+    apt:
+      update_cache: yes
+      name: kibana

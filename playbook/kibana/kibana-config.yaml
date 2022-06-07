@@ -1,0 +1,17 @@
+- hosts: ["elasticsearch1"]
+  pre_tasks:
+    - name: check kibana installed
+      stat:
+        path: /etc/kibana
+      register: kibana_installed
+
+  tasks:
+  - name: Set common fact amongst all distros
+    set_fact:
+      node_ip_addr: '{{ hostvars[inventory_hostname]["ansible_default_ipv4"]["address"] }}'
+
+  - name: "copy kibana kibana.yml file"
+    template:
+      src: 'kibana.yml'
+      dest: '/etc/kibana/kibana.yml'
+    when: kibana_installed.stat.exists

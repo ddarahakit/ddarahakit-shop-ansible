@@ -1,0 +1,12 @@
+---
+- import_tasks: base.yml
+  tags: base
+
+- import_tasks: base.yml
+  tags: base
+
+- import_tasks: base.yml
+  tags: base
+
+- import_tasks: base.yml
+  tags: base

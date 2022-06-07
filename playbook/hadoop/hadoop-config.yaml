@@ -1,25 +1,50 @@
-- hosts: ["namenode-active","namenode-standby","datanode1","datanode2"]
+- hosts: ["namenode","datanode"]
   tasks:
   - name: "mkdir data directory"
-    shell: |
-      rm -rf /data
-      mkdir -p /data/hdfs/namenode
-      mkdir -p /data/hdfs/datanode
-      mkdir -p /data/hdfs/journalnode
-      mkdir -p /data/yarn/nodemanager
-      mkdir -p /data/yarn/resourcemanager
-      mkdir -p /opt/hadoop/logs
-      mkdir -p /opt/hadoop/pids
+    file:
+      path: /data/hdfs/namenode
+      state: directory
+      path: /data/hdfs/datanode
+      state: directory
+      path: /data/hdfs/journalnode
+      state: directory
+      path: /data/yarn/nodemanager
+      state: directory
+      path: /data/yarn/resourcemanager
+      state: directory
+      path: /opt/hadoop/logs
+      state: directory
+      path: /opt/hadoop/pids
+      state: directory
 
   - name: "copy config files"
-    copy:
-      src: "/root/ansible/conf/hadoop/{{ item }}"
-      dest: "/opt/hadoop/etc/hadoop/{{ item }}"
-    with_items:  
-    - core-site.xml  
-    - yarn-site.xml 
-    - yarn-env.sh  
-    - mapred-site.xml  
-    - hdfs-site.xml
-    - hadoop-env.sh  
-    - workers
+    template:
+      src: 'core-site.xml'
+      dest: '/opt/hadoop/etc/hadoop/core-site.xml'
+      src: 'core-site.xml'
+      dest: '/opt/hadoop/etc/hadoop/yarn-site.xml'
+      src: 'core-site.xml'
+      dest: '/opt/hadoop/etc/hadoop/yarn-env.xml'
+      src: 'core-site.xml'
+      dest: '/opt/hadoop/etc/hadoop/mapred-site.xml'
+      src: 'core-site.xml'
+      dest: '/opt/hadoop/etc/hadoop/hdfs-site.xml'
+      src: 'core-site.xml'
+      dest: '/opt/hadoop/etc/hadoop/hadoop-env.xml'
+      src: 'core-site.xml'
+      dest: '/opt/hadoop/etc/hadoop/workers'
+
+  - name: "create jmk directory"
+    file:
+      path: /opt/hadoop/jmx
+      state: directory
+
+  - name: "create hadoop jmx config file"
+    template:
+      src: 'hadoop_config.yml'
+      dest: '/opt/hadoop/jmx/hadoop_config.yml'
+
+  - name: "download jmx jar"
+    get_url:
+      url: https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.17.0/jmx_prometheus_javaagent-0.17.0.jar
+      dest: /opt/hadoop/jmx

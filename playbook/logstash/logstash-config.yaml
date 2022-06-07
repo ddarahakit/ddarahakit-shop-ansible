@@ -1,0 +1,18 @@
+- hosts: ["elasticsearch"]
+  pre_tasks:
+    - name: check logstash installed
+      stat:
+        path: /etc/logstash
+      register: logstash_installed
+
+  tasks:
+  - name: Set common fact amongst all distros
+    set_fact:
+      node_ip_addr: '{{ hostvars[inventory_hostname]["ansible_default_ipv4"]["address"] }}'
+      kafka_nodes: '{{ groups["kafka"] | map("regex_replace", "$", ":9092")| join(",")   }}' 
+
+  - name: "copy logstash logstash.yml file"
+    template:
+      src: 'logstash.conf'
+      dest: '/etc/logstash/conf.d/logstash.conf'
+    when: logstash_installed.stat.exists

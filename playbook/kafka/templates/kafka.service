@@ -1,0 +1,15 @@
+[Unit]
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target
+
+[Service]
+Type=simple
+Environment="KAFKA_OPTS=-javaagent:/opt/kafka/pinpoint-agent-2.2.0/pinpoint-bootstrap-2.2.0.jar -Dpinpoint.agentId={{ kafka_agentid }} -Dpinpoint.applicationName={{ kafka_agentid }} -Dpinpoint.config=/opt/kafka/pinpoint-agent-2.2.0/profiles/release/pinpoint.config"
+ExecStart=/bin/sh -c '/opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/server.properties > /opt/kafka/kafka.log 2>&1'
+ExecStop=/opt/kafka/bin/kafka-server-stop.sh
+Restart=on-abnormal
+
+[Install]
+WantedBy=multi-user.target
+
+

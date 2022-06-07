@@ -1,0 +1,15 @@
+- hosts: ["elasticsearch"]
+  pre_tasks:
+    - name: check kibana installed
+      stat:
+        path: /etc/kibana
+      register: kibana_installed
+
+  tasks:
+  - name: "kibana start"
+    systemd:
+      name: kibana
+      state: restarted
+    become: true
+    when: kibana_installed.stat.exists
+

@@ -1,0 +1,5 @@
+- hosts: ["namenode"]
+  tasks:
+    - import_tasks: hadoop-start-namenode1.yml
+    - import_tasks: hadoop-start-namenode2.yml
+    - import_tasks: hadoop-start-zkfc.yml

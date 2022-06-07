@@ -1,0 +1,8 @@
+- hosts: ["elasticsearch"]
+  tasks:
+  - name: "logstash start"
+    systemd:
+      name: logstash
+      state: restarted
+    become: true
+

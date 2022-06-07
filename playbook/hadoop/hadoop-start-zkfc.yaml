@@ -1,0 +1,4 @@
+- hosts: ["namenode1","namenode2"]
+  tasks:
+  - name: "zkfc start"
+    shell: "/opt/hadoop/bin/hdfs --daemon start zkfc"

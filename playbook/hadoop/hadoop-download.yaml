@@ -1,4 +1,4 @@
-- hosts: ["namenode-active", "namenode-standby", "datanode1", "datanode2"]
+- hosts: ["namenode", "datanode"]
   tasks:
   - name: "install jdk"
     apt:
